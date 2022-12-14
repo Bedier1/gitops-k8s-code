@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: webapp
+  namespace: argocd
+spec:
+  destination:
+    namespace: test-argocd
+    server: "https://kubernetes.default.svc"
+  project: default
+  source: 
+    path: helm/webapp
+    repoURL: "https://github.com/Bedier1/gitops-k8s-code.git"
+    targetRevision: main
+  syncPolicy:
+    automated:
+       #overide manuel edit
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
